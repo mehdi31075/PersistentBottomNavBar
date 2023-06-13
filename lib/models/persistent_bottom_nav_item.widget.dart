@@ -14,6 +14,7 @@ class PersistentBottomNavBarItem {
       this.opacity = 1.0,
       this.filter,
       this.textStyle,
+      this.inActiveTextStyle,
       this.iconSize = 26.0,
       this.onSelectedTabPressWhenNoScreensPushed,
       this.routeAndNavigatorSettings = const RouteAndNavigatorSettings(),
@@ -69,6 +70,8 @@ class PersistentBottomNavBarItem {
 
   ///`TextStyle` of the title's text.
   final TextStyle? textStyle;
+
+  final TextStyle? inActiveTextStyle;
 
   final double iconSize;
 

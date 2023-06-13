@@ -11,8 +11,7 @@ class BottomNavStyle6 extends StatefulWidget {
   _BottomNavStyle6State createState() => _BottomNavStyle6State();
 }
 
-class _BottomNavStyle6State extends State<BottomNavStyle6>
-    with TickerProviderStateMixin {
+class _BottomNavStyle6State extends State<BottomNavStyle6> with TickerProviderStateMixin {
   late List<AnimationController> _animationControllerList;
   late List<Animation<double>> _animationList;
 
@@ -29,14 +28,12 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
 
     for (int i = 0; i < widget.navBarEssentials!.items!.length; ++i) {
       _animationControllerList.add(AnimationController(
-          duration:
-              widget.navBarEssentials!.itemAnimationProperties?.duration ??
-                  const Duration(milliseconds: 400),
+          duration: widget.navBarEssentials!.itemAnimationProperties?.duration ??
+              const Duration(milliseconds: 300),
           vsync: this));
-      _animationList.add(Tween(begin: 0.95, end: 1.18)
+      _animationList.add(Tween(begin: 1.0, end: 1.08)
           .chain(CurveTween(
-              curve: widget.navBarEssentials!.itemAnimationProperties?.curve ??
-                  Curves.ease))
+              curve: widget.navBarEssentials!.itemAnimationProperties?.curve ?? Curves.ease))
           .animate(_animationControllerList[i]));
     }
 
@@ -45,8 +42,8 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
     });
   }
 
-  Widget _buildItem(final PersistentBottomNavBarItem item,
-          final bool isSelected, final double? height, final int itemIndex) =>
+  Widget _buildItem(final PersistentBottomNavBarItem item, final bool isSelected,
+          final double? height, final int itemIndex) =>
       widget.navBarEssentials!.navBarHeight == 0
           ? const SizedBox.shrink()
           : AnimatedBuilder(
@@ -62,43 +59,47 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
+                        Flexible(
                           child: IconTheme(
                             data: IconThemeData(
                                 size: item.iconSize,
                                 color: isSelected
-                                    ? (item.activeColorSecondary ??
-                                        item.activeColorPrimary)
-                                    : item.inactiveColorPrimary ??
-                                        item.activeColorPrimary),
-                            child: isSelected
-                                ? item.icon
-                                : item.inactiveIcon ?? item.icon,
+                                    ? (item.activeColorSecondary ?? item.activeColorPrimary)
+                                    : item.inactiveColorPrimary ?? item.activeColorPrimary),
+                            child: isSelected ? item.icon : item.inactiveIcon ?? item.icon,
                           ),
                         ),
                         if (item.title == null)
                           const SizedBox.shrink()
                         else
                           Padding(
-                            padding: const EdgeInsets.only(top: 15),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Material(
                               type: MaterialType.transparency,
                               child: FittedBox(
                                 child: Text(
                                   item.title!,
-                                  style: item.textStyle != null
-                                      ? (item.textStyle!.apply(
-                                          color: isSelected
-                                              ? (item.activeColorSecondary ??
-                                                  item.activeColorPrimary)
-                                              : item.inactiveColorPrimary))
-                                      : TextStyle(
-                                          color: isSelected
-                                              ? (item.activeColorSecondary ??
-                                                  item.activeColorPrimary)
-                                              : item.inactiveColorPrimary,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12),
+                                  style: isSelected
+                                      ? item.textStyle != null
+                                          ? (item.textStyle!.apply(
+                                              color: isSelected
+                                                  ? (item.activeColorSecondary ??
+                                                      item.activeColorPrimary)
+                                                  : item.inactiveColorPrimary))
+                                          : TextStyle(
+                                              color: isSelected
+                                                  ? (item.activeColorSecondary ??
+                                                      item.activeColorPrimary)
+                                                  : item.inactiveColorPrimary,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12)
+                                      : item.inActiveTextStyle != null
+                                          ? (item.inActiveTextStyle!
+                                              .apply(color: item.inactiveColorPrimary))
+                                          : TextStyle(
+                                              color: item.inactiveColorPrimary,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),
                                 ),
                               ),
                             ),
@@ -120,23 +121,18 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
 
   @override
   Widget build(final BuildContext context) {
-    if (widget.navBarEssentials!.items!.length !=
-        _animationControllerList.length) {
-      _animationControllerList =
-          List<AnimationController>.empty(growable: true);
+    if (widget.navBarEssentials!.items!.length != _animationControllerList.length) {
+      _animationControllerList = List<AnimationController>.empty(growable: true);
       _animationList = List<Animation<double>>.empty(growable: true);
 
       for (int i = 0; i < widget.navBarEssentials!.items!.length; ++i) {
         _animationControllerList.add(AnimationController(
-            duration:
-                widget.navBarEssentials!.itemAnimationProperties?.duration ??
-                    const Duration(milliseconds: 400),
+            duration: widget.navBarEssentials!.itemAnimationProperties?.duration ??
+                const Duration(milliseconds: 400),
             vsync: this));
         _animationList.add(Tween(begin: 0.95, end: 1.18)
             .chain(CurveTween(
-                curve:
-                    widget.navBarEssentials!.itemAnimationProperties?.curve ??
-                        Curves.ease))
+                curve: widget.navBarEssentials!.itemAnimationProperties?.curve ?? Curves.ease))
             .animate(_animationControllerList[i]));
       }
     }
@@ -150,14 +146,11 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
       width: double.infinity,
       height: widget.navBarEssentials!.navBarHeight,
       padding: EdgeInsets.only(
-          left: widget.navBarEssentials!.padding?.left ??
-              MediaQuery.of(context).size.width * 0.04,
-          right: widget.navBarEssentials!.padding?.right ??
-              MediaQuery.of(context).size.width * 0.04,
-          top: widget.navBarEssentials!.padding?.top ??
-              widget.navBarEssentials!.navBarHeight! * 0.15,
-          bottom: widget.navBarEssentials!.padding?.bottom ??
-              widget.navBarEssentials!.navBarHeight! * 0.12),
+        left: widget.navBarEssentials!.padding?.left ?? MediaQuery.of(context).size.width * 0.04,
+        right: widget.navBarEssentials!.padding?.right ?? MediaQuery.of(context).size.width * 0.04,
+        top: 6,
+        bottom: 6,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: widget.navBarEssentials!.items!.map((final item) {
@@ -166,8 +159,8 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
             child: GestureDetector(
               onTap: () {
                 if (widget.navBarEssentials!.items![index].onPressed != null) {
-                  widget.navBarEssentials!.items![index].onPressed!(
-                      widget.navBarEssentials!.selectedScreenBuildContext);
+                  widget.navBarEssentials!.items![index]
+                      .onPressed!(widget.navBarEssentials!.selectedScreenBuildContext);
                 } else {
                   if (index != _selectedIndex) {
                     _lastSelectedIndex = _selectedIndex;
@@ -180,11 +173,8 @@ class _BottomNavStyle6State extends State<BottomNavStyle6>
               },
               child: Container(
                 color: Colors.transparent,
-                child: _buildItem(
-                    item,
-                    widget.navBarEssentials!.selectedIndex == index,
-                    widget.navBarEssentials!.navBarHeight,
-                    index),
+                child: _buildItem(item, widget.navBarEssentials!.selectedIndex == index,
+                    widget.navBarEssentials!.navBarHeight, index),
               ),
             ),
           );
